@@ -1,10 +1,12 @@
 package com.ComputerEngineeringDesign.Thesis.user.services.concretes;
 
+import com.ComputerEngineeringDesign.Thesis.generic.exceptions.ItemNotFoundException;
 import com.ComputerEngineeringDesign.Thesis.user.converters.UserMapper;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserResponseDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserSaveRequestDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserUpdateRequestDto;
 import com.ComputerEngineeringDesign.Thesis.user.entities.User;
+import com.ComputerEngineeringDesign.Thesis.user.enums.UserErrorMessage;
 import com.ComputerEngineeringDesign.Thesis.user.repositories.UserDao;
 import com.ComputerEngineeringDesign.Thesis.user.services.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +32,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto getOneUser(Long id) {
         if(!checkIfUserExist(id)){
-            //throw
+            throw new ItemNotFoundException(UserErrorMessage.USER_DOES_NOT_EXIST);
         }
         User user = userDao.getReferenceById(id);
         UserResponseDto userResponseDto = UserMapper.INSTANCE.mapUserToUserResponseDto(user);
