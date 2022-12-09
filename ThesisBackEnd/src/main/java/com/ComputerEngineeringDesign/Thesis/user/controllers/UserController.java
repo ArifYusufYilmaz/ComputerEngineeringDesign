@@ -32,15 +32,21 @@ public class UserController {
     }
 
     @PostMapping
-    public UserResponseDto createOneUser(@RequestBody UserSaveRequestDto userSaveRequestDto){
-        return userService.createOneUser(userSaveRequestDto);
+    public ResponseEntity createOneUser(@RequestBody UserSaveRequestDto userSaveRequestDto){
+        UserResponseDto userResponseDto = userService.createOneUser(userSaveRequestDto);
+
+        return  ResponseEntity.ok(RestResponse.success(userResponseDto));
+
     }
     @PutMapping("/{id}")
-    public UserResponseDto updateOneUser(@PathVariable Long id, @RequestBody UserUpdateRequestDto userUpdateRequestDto){
-        return userService.updateOneUser(id,userUpdateRequestDto);
+    public ResponseEntity updateOneUser(@PathVariable Long id, @RequestBody UserUpdateRequestDto userUpdateRequestDto){
+
+        UserResponseDto userResponseDto = userService.updateOneUser(id,userUpdateRequestDto);
+        return ResponseEntity.ok( RestResponse.success(userResponseDto));
     }
     @DeleteMapping("/{id}")
-    public void deleteOneUserById(@PathVariable Long id){
+    public ResponseEntity deleteOneUserById(@PathVariable Long id){
         userService.deleteOneUser(id);
+        return ResponseEntity.ok(RestResponse.empty());
     }
 }
