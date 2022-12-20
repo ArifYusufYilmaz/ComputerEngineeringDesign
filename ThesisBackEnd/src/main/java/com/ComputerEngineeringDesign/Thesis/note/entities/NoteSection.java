@@ -1,10 +1,13 @@
 package com.ComputerEngineeringDesign.Thesis.note.entities;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "note_sections")
+@Data
 public class NoteSection {
     @Id
     @SequenceGenerator(name= "NoteSection", sequenceName = "NOTE_SECTION_ID_SEQ")

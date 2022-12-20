@@ -1,14 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import ApiExample from './components/ApiExample';
+import Router from './routers/Router';
+
+
+import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
+import { NoteApiSlice } from './api/NoteApiSlice';
+
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <ApiExample></ApiExample>
-      {/* <Text>Open up App.js to start working on your app!</Text> */}
-      <StatusBar style="auto" />
-    </View>
+    <ApiProvider api = {NoteApiSlice}>
+        <View style={styles.container}>
+          {/* <ApiExample></ApiExample> */}
+          {/* <Text>Open up App.js to start working on your app!</Text> */}
+          <Router></Router>
+        </View>
+    </ApiProvider>
   );
 }   
 

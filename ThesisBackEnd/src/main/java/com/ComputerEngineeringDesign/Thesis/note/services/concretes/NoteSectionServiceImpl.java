@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -28,12 +29,20 @@ public class NoteSectionServiceImpl implements NoteSectionService {
 
     @Override
     public NoteSectionResponseDto getOneNoteSection(Long id) {
-        return null;
+        if(!checkIfItExists(id)){
+            // throw
+        }
+        NoteSection noteSection = noteSectionDao.getReferenceById(id);
+        NoteSectionResponseDto noteSectionResponseDto = NoteSectionMapper.INSTANCE.mapNoteSectionToNoteSectionResponseDto(noteSection);
+        return noteSectionResponseDto;
     }
 
     @Override
     public NoteSectionResponseDto createOneNoteSection(NoteSectionSaveRequestDto noteSectionSaveRequestDto) {
-        return null;
+        NoteSection noteSection = NoteSectionMapper.INSTANCE.mapNoteSectionSaveRequestDtoToNoteSection(noteSectionSaveRequestDto);
+        noteSection = noteSectionDao.save(noteSection);
+        NoteSectionResponseDto noteSectionResponseDto = NoteSectionMapper.INSTANCE.mapNoteSectionToNoteSectionResponseDto(noteSection);
+        return noteSectionResponseDto;
     }
 
     @Override
@@ -45,4 +54,12 @@ public class NoteSectionServiceImpl implements NoteSectionService {
     public void deleteOneSectionById(Long id) {
 
     }
+    private boolean checkIfItExists(Long id){
+        Optional<NoteSection>  noteSection = noteSectionDao.findById(id);
+        if(noteSection.isPresent()){
+            return true;
+        }
+        return false;
+    }
+
 }
