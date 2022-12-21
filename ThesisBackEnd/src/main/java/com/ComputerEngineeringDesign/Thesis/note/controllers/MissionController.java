@@ -1,10 +1,12 @@
 package com.ComputerEngineeringDesign.Thesis.note.controllers;
 
+import com.ComputerEngineeringDesign.Thesis.generic.response.RestResponse;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.missionDtos.MissionResponseDto;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.missionDtos.MissionSaveRequestDto;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.missionDtos.MissionUpdateRequestDto;
 import com.ComputerEngineeringDesign.Thesis.note.services.abstracts.MissionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,8 +18,9 @@ public class MissionController {
     private final MissionService missionService;
 
     @GetMapping("/all/{noteSectionId}")
-    public List<MissionResponseDto> getAllMissionsByNoteSectionId(@PathVariable Long noteSectionId){
-        return missionService.getAllMissionsByNoteSectionId(noteSectionId);
+    public ResponseEntity getAllMissionsByNoteSectionId(@PathVariable Long noteSectionId){
+        List<MissionResponseDto> missionResponseDtoList = missionService.getAllMissionsByNoteSectionId(noteSectionId);
+        return ResponseEntity.ok(RestResponse.success(missionResponseDtoList));
     }
     @GetMapping("/{id}")        // could be diverse
     public MissionResponseDto getOneMission(@PathVariable Long id){

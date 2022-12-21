@@ -52,7 +52,8 @@ public class NoteSectionServiceImpl implements NoteSectionService {
 
     @Override
     public void deleteOneSectionById(Long id) {
-
+        // check and throw
+        noteSectionDao.deleteById(id);
     }
     private boolean checkIfItExists(Long id){
         Optional<NoteSection>  noteSection = noteSectionDao.findById(id);
