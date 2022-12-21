@@ -31,7 +31,7 @@ export default function MissionScreen(props){
     return(
         <View>
             <Text>
-                hello mission new
+                
                  {props.route.params.noteSectionId} {props.route.params.userId}
 
             </Text>

@@ -3,7 +3,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 export const ApiSlice = createApi({
     reducerPath: 'api',
     baseQuery : fetchBaseQuery({baseUrl : 'http://localhost:8080/'}),
-    tagTypes:['NoteSections'],
+    tagTypes:['NoteSections', 'Missions'],
     endpoints:(builder)=>({
         getAllNoteSections: builder.query({
               query : ()=> `api/v1/noteSections` ,
@@ -31,9 +31,9 @@ export const ApiSlice = createApi({
         }),
         getAllMissions: builder.query({
             query : (noteSectionId)=> `api/v1/missions/all/${noteSectionId}`,
-
-
-        })
+            providesTags : ['Missions']
+        }),
+        
         
     })
 })

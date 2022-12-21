@@ -6,6 +6,7 @@ import com.ComputerEngineeringDesign.Thesis.note.dtos.missionDtos.MissionSaveReq
 import com.ComputerEngineeringDesign.Thesis.note.dtos.missionDtos.MissionUpdateRequestDto;
 import com.ComputerEngineeringDesign.Thesis.note.services.abstracts.MissionService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,19 +24,23 @@ public class MissionController {
         return ResponseEntity.ok(RestResponse.success(missionResponseDtoList));
     }
     @GetMapping("/{id}")        // could be diverse
-    public MissionResponseDto getOneMission(@PathVariable Long id){
-        return missionService.getOneMission(id);
+    public ResponseEntity getOneMission(@PathVariable Long id){
+        MissionResponseDto missionResponseDto = missionService.getOneMission(id);
+        return ResponseEntity.ok(RestResponse.success(missionResponseDto));
     }
     @PostMapping("/{noteSectionId}")
-    public MissionResponseDto createOneMission(@PathVariable Long noteSectionId,@RequestBody MissionSaveRequestDto missionSaveRequestDto){
-        return missionService.createOneMission(noteSectionId, missionSaveRequestDto);
+    public ResponseEntity createOneMission(@PathVariable Long noteSectionId,@RequestBody MissionSaveRequestDto missionSaveRequestDto){
+        MissionResponseDto missionResponseDto = missionService.createOneMission(noteSectionId, missionSaveRequestDto);
+        return ResponseEntity.ok(RestResponse.success(missionResponseDto));
     }
     @PutMapping("/{id}")
-    public MissionResponseDto updateOneMission(@PathVariable Long id, @RequestBody MissionUpdateRequestDto missionUpdateRequestDto){
-        return missionService.updateOneMission(id, missionUpdateRequestDto);
+    public ResponseEntity updateOneMission(@PathVariable Long id, @RequestBody MissionUpdateRequestDto missionUpdateRequestDto){
+        MissionResponseDto missionResponseDto =missionService.updateOneMission(id, missionUpdateRequestDto);
+        return ResponseEntity.ok(RestResponse.success(missionResponseDto));
     }
     @DeleteMapping("/{id}")
-    public void deleteOneMissionById(@PathVariable Long id){
+    public ResponseEntity deleteOneMissionById(@PathVariable Long id){
         missionService.deleteOneMissionById(id);
+        ResponseEntity.ok(RestResponse.empty());
     }
 }

@@ -1,6 +1,7 @@
 package com.ComputerEngineeringDesign.Thesis.note.converters;
 
 import com.ComputerEngineeringDesign.Thesis.note.dtos.missionDtos.MissionResponseDto;
+import com.ComputerEngineeringDesign.Thesis.note.dtos.missionDtos.MissionSaveRequestDto;
 import com.ComputerEngineeringDesign.Thesis.note.entities.Mission;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -18,4 +19,7 @@ public interface MissionMapper {
     MissionResponseDto mapMissionToMissionResponseDto(Mission mission);
 
     List<MissionResponseDto> mapMissionListToMissionResponseDtoList(List<Mission> missionList);
+
+    @Mapping(source="noteSectionId", target="noteSection.id")
+    Mission mapMissionSaveRequestDtoToMission(MissionSaveRequestDto missionSaveRequestDto);
 }

@@ -10,7 +10,7 @@ export default function NoteCard(props){
     return(
         <View>
             <Text>
-                hello note card {id} {noteSectionName}
+                 {id} {noteSectionName}
             </Text>
         
         </View>
