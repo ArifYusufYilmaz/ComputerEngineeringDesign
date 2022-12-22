@@ -41,6 +41,6 @@ public class MissionController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteOneMissionById(@PathVariable Long id){
         missionService.deleteOneMissionById(id);
-        ResponseEntity.ok(RestResponse.empty());
+        return ResponseEntity.ok(RestResponse.empty());
     }
 }

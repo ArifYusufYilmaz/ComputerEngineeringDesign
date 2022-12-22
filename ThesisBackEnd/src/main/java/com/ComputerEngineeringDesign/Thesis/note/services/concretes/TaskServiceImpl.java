@@ -1,33 +1,61 @@
 package com.ComputerEngineeringDesign.Thesis.note.services.concretes;
 
+import com.ComputerEngineeringDesign.Thesis.note.converters.TaskMapper;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.taskDtos.TaskResponseDto;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.taskDtos.TaskSaveRequestDto;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.taskDtos.TaskUpdateRequestDto;
+import com.ComputerEngineeringDesign.Thesis.note.entities.Mission;
+import com.ComputerEngineeringDesign.Thesis.note.entities.Task;
+import com.ComputerEngineeringDesign.Thesis.note.repositories.MissionDao;
 import com.ComputerEngineeringDesign.Thesis.note.repositories.TaskDao;
 import com.ComputerEngineeringDesign.Thesis.note.services.abstracts.TaskService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
     private final TaskDao taskDao;
-
+    private final MissionDao missionDao;
     @Override
     public List<TaskResponseDto> getAllTasksByMissionId(Long missionId) {
-        return null;
+        System.out.println("simdi burdayim");
+        Optional<List<Task>> taskList = taskDao.findAllByMission_Id(missionId);
+        System.out.println("burdayim");
+        if(!taskList.isPresent()){
+            // throw
+            System.out.println("girdim");
+        }
+        List<TaskResponseDto> taskResponseDtoList = TaskMapper.INSTANCE.mapTaskListToTaskResponseDtoList(taskList.get());
+        return taskResponseDtoList;
     }
 
     @Override
     public TaskResponseDto getOneTask(Long id) {
-        return null;
+        Optional<Task> task = taskDao.findById(id);
+        if(!task.isPresent()){
+
+        }
+        TaskResponseDto taskResponseDto = TaskMapper.INSTANCE.mapTaskToTaskResponseDto(task.get());
+        return taskResponseDto;
     }
 
     @Override
-    public TaskResponseDto createOneTask(TaskSaveRequestDto taskSaveRequestDto) {
-        return null;
+    public TaskResponseDto createOneTask(Long missionId,TaskSaveRequestDto taskSaveRequestDto) {
+        Optional<Mission> mission = missionDao.findById(missionId);
+        if(!mission.isPresent()){
+            //throw
+        }
+        if(missionId != taskSaveRequestDto.getMissionId()){
+            //throw
+        }
+        Task task =  TaskMapper.INSTANCE.mapTaskSaveRequestDtoToTask(taskSaveRequestDto);
+        task = taskDao.save(task);
+        TaskResponseDto taskResponseDto =  TaskMapper.INSTANCE.mapTaskToTaskResponseDto(task);
+        return taskResponseDto;
     }
 
     @Override
@@ -36,7 +64,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskResponseDto deleteOneTask(Long id) {
-        return null;
+    public void deleteOneTask(Long id) {
+        Optional<Task> task = taskDao.findById(id);
+        if(!task.isPresent()){
+
+        }
+        taskDao.deleteById(id);
     }
 }

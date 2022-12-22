@@ -1,10 +1,12 @@
 package com.ComputerEngineeringDesign.Thesis.note.controllers;
 
+import com.ComputerEngineeringDesign.Thesis.generic.response.RestResponse;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.taskDtos.TaskResponseDto;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.taskDtos.TaskSaveRequestDto;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.taskDtos.TaskUpdateRequestDto;
 import com.ComputerEngineeringDesign.Thesis.note.services.abstracts.TaskService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,25 +16,30 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TaskController {
     private final TaskService taskService;
-    @GetMapping("/{missionId}")
-    public List<TaskResponseDto> getAllTasksByMissionId(@PathVariable Long missionId){
-        return taskService.getAllTasksByMissionId(missionId);
+    @GetMapping("/all/{missionId}")
+    public ResponseEntity getAllTasksByMissionId(@PathVariable Long missionId){
+        List<TaskResponseDto>  taskResponseDtoList =taskService.getAllTasksByMissionId(missionId);
+        return ResponseEntity.ok(RestResponse.success(taskResponseDtoList));
     }
     @GetMapping("/{id}")    //could be diverse
-    public TaskResponseDto getOneTask(@PathVariable Long id){
-        return taskService.getOneTask(id);
+    public ResponseEntity getOneTask(@PathVariable Long id){
+        TaskResponseDto taskResponseDto = taskService.getOneTask(id);
+        return ResponseEntity.ok(RestResponse.success(taskResponseDto));
     }
-    @PostMapping()
-    public TaskResponseDto createOneTask(@RequestBody TaskSaveRequestDto taskSaveRequestDto){
-        return taskService.createOneTask(taskSaveRequestDto);
+    @PostMapping("/{missionId}")
+    public ResponseEntity createOneTask(@PathVariable Long missionId ,@RequestBody TaskSaveRequestDto taskSaveRequestDto){
+        TaskResponseDto taskResponseDto = taskService.createOneTask(missionId,taskSaveRequestDto);
+        return ResponseEntity.ok(RestResponse.success(taskResponseDto));
     }
     @PutMapping("/{id}")
-    public TaskResponseDto updateOneTask(@PathVariable Long id, @RequestBody TaskUpdateRequestDto taskUpdateRequestDto){
-        return taskService.updateOneTask(id, taskUpdateRequestDto);
+    public ResponseEntity updateOneTask(@PathVariable Long id, @RequestBody TaskUpdateRequestDto taskUpdateRequestDto){
+        TaskResponseDto taskResponseDto = taskService.updateOneTask(id, taskUpdateRequestDto);
+        return ResponseEntity.ok(RestResponse.success(taskResponseDto));
     }
     @DeleteMapping("/{id}")
-    public TaskResponseDto deleteOneTask(@PathVariable Long id){
-        return taskService.deleteOneTask(id);
+    public ResponseEntity deleteOneTask(@PathVariable Long id){
+        taskService.deleteOneTask(id);
+        return ResponseEntity.ok(RestResponse.empty());
     }
 
 }

@@ -11,9 +11,9 @@ public interface TaskService {
 
     TaskResponseDto getOneTask(Long id);
 
-    TaskResponseDto createOneTask(TaskSaveRequestDto taskSaveRequestDto);
+    TaskResponseDto createOneTask(Long missionId, TaskSaveRequestDto taskSaveRequestDto);
 
     TaskResponseDto updateOneTask(Long id, TaskUpdateRequestDto taskUpdateRequestDto);
 
-    TaskResponseDto deleteOneTask(Long id);
+    void deleteOneTask(Long id);
 }
