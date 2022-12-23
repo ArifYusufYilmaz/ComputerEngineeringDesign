@@ -10,29 +10,14 @@ import NoteScreen from "../pages/notePages/NoteScreen";
 import MissionScreen from "../pages/notePages/MissionScreen";
 import TaskScreen from "../pages/notePages/TaskScreen";
 
+import SignUpScreen from "../pages/authPages/SignUpScreen";
+import LoginScreen from "../pages/authPages/LoginScreen";
 
 
-function MovieScreen(){
-    return(
-        <View>
-            <Text>
-                hello movie screen
-            </Text>
-        </View>
-    );
-}
-function MovieWatchedScreen(){
-    return(
-        <View>
-            <Text>
-                hello movie watched screen
-            </Text>
-        </View>
-    );
-}
 
 
 const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function NoteStack(){
     return(
@@ -43,14 +28,7 @@ function NoteStack(){
         </Stack.Navigator>
     );
 }
-function MovieStack(){
-    return(
-        <Stack.Navigator>
-            <Stack.Screen  name="Movie" component={MovieScreen}/>
-            <Stack.Screen name="MovieWatched" component={MovieWatchedScreen}/>
-        </Stack.Navigator>
-    );
-}
+
 function BudgetStack(){
     return(
         <View>
@@ -61,18 +39,24 @@ function BudgetStack(){
     );
 }
 
-const Tab = createBottomTabNavigator();
-
-
-
 export default function Router(){
     return(
+        
          <NavigationContainer>
-            <Tab.Navigator initialRouteName="Movie" >
-                <Tab.Screen options={{tabBarIcon: ()=> (<Ionicons name="play-forward-outline"> </Ionicons>)}} name="NoteStack" component={NoteStack} /> 
-                <Tab.Screen name="MovieStack" component={MovieStack} />
-                <Tab.Screen name="BudgetStack" component={BudgetStack}/>
-            </Tab.Navigator>
+          {!false ? (
+                <Stack.Navigator initialRouteName="Login">
+                    <Stack.Screen name="SignUp" component={SignUpScreen}/>
+                    <Stack.Screen name="Login" component={LoginScreen}/> 
+                </Stack.Navigator>
+              ) : (
+                
+                <Tab.Navigator initialRouteName="Note" >
+                    <Tab.Screen options={{tabBarIcon: ()=> (<Ionicons name="play-forward-outline"> </Ionicons>)}} name="NoteStack" component={NoteStack} /> 
+                    <Tab.Screen name="BudgetStack" component={BudgetStack}/>
+                </Tab.Navigator>
+                
+             )} 
          </NavigationContainer>
+         
     );
 }

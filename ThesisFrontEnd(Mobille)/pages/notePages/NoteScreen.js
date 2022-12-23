@@ -3,11 +3,12 @@ import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import { Button } from "react-native-paper";
 import {Stack,FAB} from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import Toast from 'react-native-toast-message';
 
 import { useGetAllNoteSectionsQuery, useDeleteOneNoteSectionMutation, useAddOneNoteSectionMutation} from "../../api/ApiSlice";
 import NoteCard from "../../components/noteComponents/NoteCard";
 import NoteDelete from "../../components/noteComponents/NoteDelete";
-import NoteContentInputModal from "../../components/modals/NoteContentInputModal";
+import ContentInputModal from "../../components/modals/ContentInputModal";
 
 export default function NoteScreen(props){
 
@@ -41,10 +42,14 @@ export default function NoteScreen(props){
     function handleDeleteNote(id){
         deleteOneNoteSection(id)
     }
-    function handleAddNote(){
-        const noteSection = {"noteSectionName": "fourthNote"}
-        addOneNoteSection(noteSection)
-    }
+    function handleAddNote(text1Message){
+         Toast.show({
+             type: 'info',
+             text1: text1Message + " EKLENDİ",
+             position:"top",
+             topOffset: 300
+         })
+    }   
     function handleInputToggle(){
         setInputModalVisible(!inputModalVisible)
     }
@@ -52,8 +57,8 @@ export default function NoteScreen(props){
         // content backendin istediği şekle çevrilerek gönderilmeli!
         handleInputToggle()
         const noteSection = {"noteSectionName": content}
-        
          addOneNoteSection(noteSection)
+         handleAddNote(content)
     }
      const renderNoteCards = ({item}) =><> <TouchableOpacity onPress={()=> handleNavigation(item.id) }>
                                           <NoteCard note={item}></NoteCard>
@@ -65,17 +70,21 @@ export default function NoteScreen(props){
     
     const [inputModalVisible, setInputModalVisible] = useState(false);
     return(
+        
         <View>
              <Button title="Click To Go To Mission" onPress={()=>handleNavigation(2)}>Click</Button>  
-            <Button title="" onPress={()=>handleAddNote()}> Click To Add Note</Button>
+            <Button title="" onPress={handleAddNote}> Click To Add Toast</Button>
             <Stack >
                 <FAB icon={props => <Icon name="plus" {...props} />} onPress={handleInputToggle}/>
             </Stack>
-            <NoteContentInputModal 
+            <ContentInputModal 
                     visible={inputModalVisible}
                     onClose={handleInputToggle}
                     onSend={handleSendContent}/>
             <FlatList keyExtractor={(item, index) => index} data={content} renderItem={renderNoteCards}/>
+            
         </View>
+       
+        
     );
 }

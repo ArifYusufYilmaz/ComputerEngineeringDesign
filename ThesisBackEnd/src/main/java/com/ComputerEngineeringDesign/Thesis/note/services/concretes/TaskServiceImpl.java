@@ -22,12 +22,9 @@ public class TaskServiceImpl implements TaskService {
     private final MissionDao missionDao;
     @Override
     public List<TaskResponseDto> getAllTasksByMissionId(Long missionId) {
-        System.out.println("simdi burdayim");
         Optional<List<Task>> taskList = taskDao.findAllByMission_Id(missionId);
-        System.out.println("burdayim");
         if(!taskList.isPresent()){
             // throw
-            System.out.println("girdim");
         }
         List<TaskResponseDto> taskResponseDtoList = TaskMapper.INSTANCE.mapTaskListToTaskResponseDtoList(taskList.get());
         return taskResponseDtoList;

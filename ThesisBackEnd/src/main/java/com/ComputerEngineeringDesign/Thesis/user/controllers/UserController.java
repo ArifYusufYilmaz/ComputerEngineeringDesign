@@ -4,13 +4,12 @@ import com.ComputerEngineeringDesign.Thesis.generic.response.RestResponse;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserResponseDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserSaveRequestDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserUpdateRequestDto;
-import com.ComputerEngineeringDesign.Thesis.user.entities.User;
-import com.ComputerEngineeringDesign.Thesis.user.repositories.UserDao;
 import com.ComputerEngineeringDesign.Thesis.user.services.abstracts.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 @CrossOrigin(origins = "http://localhost:8080")
 @RestController
@@ -32,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity createOneUser(@RequestBody UserSaveRequestDto userSaveRequestDto){
+    public ResponseEntity createOneUser(@Valid @RequestBody UserSaveRequestDto userSaveRequestDto){
         UserResponseDto userResponseDto = userService.createOneUser(userSaveRequestDto);
 
         return  ResponseEntity.ok(RestResponse.success(userResponseDto));

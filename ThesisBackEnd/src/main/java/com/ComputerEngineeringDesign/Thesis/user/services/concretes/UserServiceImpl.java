@@ -1,5 +1,6 @@
 package com.ComputerEngineeringDesign.Thesis.user.services.concretes;
 
+import com.ComputerEngineeringDesign.Thesis.generic.exceptions.BusinessException;
 import com.ComputerEngineeringDesign.Thesis.generic.exceptions.ItemNotFoundException;
 import com.ComputerEngineeringDesign.Thesis.user.converters.UserMapper;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserResponseDto;
@@ -42,6 +43,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto createOneUser(UserSaveRequestDto userSaveRequestDto) {
+        if(checkIfUserExistWithSameValues(userSaveRequestDto)){
+            throw new BusinessException(UserErrorMessage.USER_ALREADY_EXIST);
+        }
+
         User user = UserMapper.INSTANCE.mapUserSaveRequestDtoToUser(userSaveRequestDto);
         userDao.save(user);
         UserResponseDto userResponseDto = UserMapper.INSTANCE.mapUserToUserResponseDto(user);
@@ -75,6 +80,19 @@ public class UserServiceImpl implements UserService {
     boolean checkIfUserExist(Long id){
         Optional<User> userToCheck = userDao.findById(id);
         if(userToCheck.isPresent()) return true;
+        return false;
+    }
+    boolean checkIfUserExistWithSameValues(UserSaveRequestDto userSaveRequestDto){
+        Optional<User> userToCheck = userDao.
+                                            findUserByUserFirstNameAndUserLastNameAndUserEmailAndUserPassword(
+                                                    userSaveRequestDto.getUserFirstName(),
+                                                    userSaveRequestDto.getUserLastName(),
+                                                    userSaveRequestDto.getUserEmail(),
+                                                    userSaveRequestDto.getUserPassword()
+                                                    );
+        if(userToCheck.isPresent()){
+            return true;
+        }
         return false;
     }
 }

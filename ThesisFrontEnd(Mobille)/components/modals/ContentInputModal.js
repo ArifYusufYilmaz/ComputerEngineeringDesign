@@ -5,7 +5,7 @@ import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import Modal from "react-native-modal";
 
 
-const NoteContentInputModal = ({visible, onClose, onSend}) =>{
+const ContentInputModal = ({visible, onClose, onSend}) =>{
    
     const [text, setText] = useState(null);
 
@@ -23,7 +23,7 @@ const NoteContentInputModal = ({visible, onClose, onSend}) =>{
                 onBackdropPress={onClose}
                 onBackButtonPress={onClose}>
             <View>
-                <TextInput placeholder={"Write something for Note Section"} onChangeText={setText} multiline/>
+                <TextInput placeholder={"Write something"} onChangeText={setText} multiline/>
                 <Stack>
                     <Button title="Send" trailing={props => <Icon name="send" {...props}/>} onPress={handleSend}/>
                 </Stack>
@@ -31,4 +31,4 @@ const NoteContentInputModal = ({visible, onClose, onSend}) =>{
         </Modal>
     );
 }
-export default NoteContentInputModal;
+export default ContentInputModal;
