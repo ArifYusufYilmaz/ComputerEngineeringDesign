@@ -7,11 +7,11 @@ import com.ComputerEngineeringDesign.Thesis.note.dtos.noteSectionDtos.NoteSectio
 import java.util.List;
 
 public interface NoteSectionService {
-    List<NoteSectionResponseDto> getAllNoteSections();
+    List<NoteSectionResponseDto> getAllNoteSectionsByUserId(Long userId);
 
     NoteSectionResponseDto getOneNoteSection(Long id);
 
-    NoteSectionResponseDto createOneNoteSection(NoteSectionSaveRequestDto noteSectionSaveRequestDto);
+    NoteSectionResponseDto createOneNoteSection(Long userId,NoteSectionSaveRequestDto noteSectionSaveRequestDto);
 
     NoteSectionResponseDto updateOneNoteSection(Long id, NoteSectionUpdateRequestDto noteSectionUpdateRequestDto);
 

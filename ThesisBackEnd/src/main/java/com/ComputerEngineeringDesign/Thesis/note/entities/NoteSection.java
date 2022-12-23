@@ -1,5 +1,6 @@
 package com.ComputerEngineeringDesign.Thesis.note.entities;
 
+import com.ComputerEngineeringDesign.Thesis.user.entities.User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,4 +19,6 @@ public class NoteSection {
     @OneToMany(mappedBy = "noteSection", cascade = CascadeType.ALL)
     private List<Mission> missions;
 
+    @ManyToOne
+    private User user;
 }

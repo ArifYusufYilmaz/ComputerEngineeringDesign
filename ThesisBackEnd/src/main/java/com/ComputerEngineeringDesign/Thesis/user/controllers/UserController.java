@@ -1,6 +1,7 @@
 package com.ComputerEngineeringDesign.Thesis.user.controllers;
 
 import com.ComputerEngineeringDesign.Thesis.generic.response.RestResponse;
+import com.ComputerEngineeringDesign.Thesis.user.dtos.UserLoginDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserResponseDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserSaveRequestDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserUpdateRequestDto;
@@ -25,12 +26,18 @@ public class UserController {
         return ResponseEntity.ok(RestResponse.success(userResponseDtoList));
 
     }
+    @PostMapping("/login")
+    public ResponseEntity getSignedUpUser(@RequestBody UserLoginDto userLoginDto){
+        UserResponseDto userResponseDto = userService.getSignedUpUser(userLoginDto);
+        return ResponseEntity.ok(RestResponse.success(userResponseDto));
+
+    }
     @GetMapping("/{id}")
     public ResponseEntity getOneUser(@PathVariable Long id){
         return ResponseEntity.ok(RestResponse.success(userService.getOneUser(id)));
     }
 
-    @PostMapping
+    @PostMapping("/signUp")
     public ResponseEntity createOneUser(@Valid @RequestBody UserSaveRequestDto userSaveRequestDto){
         UserResponseDto userResponseDto = userService.createOneUser(userSaveRequestDto);
 

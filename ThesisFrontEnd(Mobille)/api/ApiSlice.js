@@ -1,7 +1,7 @@
 
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 export const ApiSlice = createApi({
-    reducerPath: 'api',
+    reducerPath: 'ApiSlice',
     baseQuery : fetchBaseQuery({baseUrl : 'http://localhost:8080/'}),
     tagTypes:['NoteSections', 'Missions', 'Tasks', 'Users'],
     endpoints:(builder)=>({
@@ -79,11 +79,19 @@ export const ApiSlice = createApi({
         }),
         addOneUser : builder.mutation({
             query : (user)=>({
-                url:`api/v1/users`,
+                url:`api/v1/users/signUp`,
                 method:'POST',
                 body: user
             }),
             invalidatesTags : ['Users']
+        }),
+        loginUser : builder.mutation({
+            query : (user)=> ({
+                url : `api/v1/users/login`,
+                method : 'POST',
+                body : user
+            }),
+            invalidatesTags: ['Users']
         })
     })
 })
@@ -100,4 +108,5 @@ export const {
     useDeleteOneTaskMutation,
     useGetOneUserQuery,
     useAddOneUserMutation,
+    useLoginUserMutation,
 } = ApiSlice

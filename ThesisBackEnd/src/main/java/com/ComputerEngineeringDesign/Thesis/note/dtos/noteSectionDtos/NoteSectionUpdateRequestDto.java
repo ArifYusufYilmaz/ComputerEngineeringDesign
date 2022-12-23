@@ -6,4 +6,5 @@ import lombok.Data;
 public class NoteSectionUpdateRequestDto {
     private Long id;
     private String noteSectionName;
+    private Long userId;
 }

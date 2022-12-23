@@ -6,4 +6,5 @@ import lombok.Data;
 public class NoteSectionSaveRequestDto {
 
     private String noteSectionName;
+    private Long userId;
 }

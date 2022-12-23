@@ -27,7 +27,7 @@ public class MissionServiceImpl implements MissionService {
         Optional<List<Mission>> missionList =  missionDao.findAllByNoteSection_Id(noteSectionId);
         if(!missionList.isPresent()){
             // throw
-            System.out.println("note section yok!");
+
         }
         List<MissionResponseDto> missionResponseDtoList = MissionMapper.INSTANCE.mapMissionListToMissionResponseDtoList(missionList.get());
         return missionResponseDtoList;

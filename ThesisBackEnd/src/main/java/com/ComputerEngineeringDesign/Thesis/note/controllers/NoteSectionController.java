@@ -16,20 +16,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NoteSectionController {
     private final NoteSectionService noteSectionService;
-    // userId almak gerekiyor!!
-    @GetMapping
-    public ResponseEntity getAllNoteSections(){
-        List<NoteSectionResponseDto> noteSectionResponseDtoList = noteSectionService.getAllNoteSections();
+    
+    @GetMapping("/user/{userId}")
+    public ResponseEntity getAllNoteSectionsByUserId(@PathVariable Long userId){
+        List<NoteSectionResponseDto> noteSectionResponseDtoList = noteSectionService.getAllNoteSectionsByUserId(userId);
         return ResponseEntity.ok(RestResponse.success(noteSectionResponseDtoList));
     }
-    @GetMapping("/{id}")
+    @GetMapping("/noteSection/{id}")
     public ResponseEntity getOneNoteSection(@PathVariable Long id){
         NoteSectionResponseDto noteSectionResponseDto = noteSectionService.getOneNoteSection(id);
         return ResponseEntity.ok(RestResponse.success(noteSectionResponseDto));
     }
-    @PostMapping
-    public ResponseEntity createOneNoteSection(@RequestBody NoteSectionSaveRequestDto noteSectionSaveRequestDto){
-        NoteSectionResponseDto noteSectionResponseDto = noteSectionService.createOneNoteSection(noteSectionSaveRequestDto);
+    @PostMapping("/userId/{userId}")
+    public ResponseEntity createOneNoteSection(@PathVariable Long userId,@RequestBody NoteSectionSaveRequestDto noteSectionSaveRequestDto){
+        NoteSectionResponseDto noteSectionResponseDto = noteSectionService.createOneNoteSection(userId,noteSectionSaveRequestDto);
         return ResponseEntity.ok(RestResponse.success(noteSectionResponseDto));
     }
     @PutMapping("/{id}")

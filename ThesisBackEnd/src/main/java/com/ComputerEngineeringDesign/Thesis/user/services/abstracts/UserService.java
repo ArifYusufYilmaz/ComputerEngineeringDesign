@@ -1,5 +1,6 @@
 package com.ComputerEngineeringDesign.Thesis.user.services.abstracts;
 
+import com.ComputerEngineeringDesign.Thesis.user.dtos.UserLoginDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserResponseDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserSaveRequestDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserUpdateRequestDto;
@@ -17,4 +18,6 @@ public interface UserService {
     UserResponseDto updateOneUser(Long id, UserUpdateRequestDto userUpdateRequestDto);
 
     void deleteOneUser(Long id);
+
+    UserResponseDto getSignedUpUser(UserLoginDto userLoginDto);
 }

@@ -11,5 +11,5 @@ import java.util.List;
 public class NoteSectionResponseDto {
     private Long id;
     private String noteSectionName;
-    //private List<Mission> missions;
+    private Long userId;
 }

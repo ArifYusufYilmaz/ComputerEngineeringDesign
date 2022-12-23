@@ -51,7 +51,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
         ResponseEntity<Object> responseEntity = new ResponseEntity<>(restResponse, httpStatus);
         return responseEntity;
     }
-   
+
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
         String message = "Validation failed";

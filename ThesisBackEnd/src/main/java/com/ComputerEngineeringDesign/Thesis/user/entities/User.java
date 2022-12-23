@@ -1,11 +1,13 @@
 package com.ComputerEngineeringDesign.Thesis.user.entities;
 
+import com.ComputerEngineeringDesign.Thesis.note.entities.NoteSection;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity
 @Table(name= "users")
@@ -36,5 +38,8 @@ public class User {
     @NotEmpty
     @NotBlank(message = "userPassword is mandatory")
     private String userPassword;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<NoteSection> noteSection;
 
 }

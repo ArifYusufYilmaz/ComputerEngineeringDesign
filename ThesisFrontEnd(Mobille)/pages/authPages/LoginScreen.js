@@ -3,7 +3,9 @@ import { ActivityIndicator, Button, StyleSheet, Text, TextInput, View } from "re
 import {Formik} from 'formik';
 import Toast from 'react-native-toast-message';
 
-import { useAddOneUserMutation } from "../../api/ApiSlice";
+import { useLoginUserMutation } from "../../api/ApiSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser, selectCurrentUser } from "../../globalStates/SessionSlice";
 
 
 const initialFormValues = {
@@ -14,34 +16,49 @@ const initialFormValues = {
 }
 
 export default function LoginScreen(props){
+    const currentUser  = useSelector(selectCurrentUser);
+     const dispatch = useDispatch();
+
     const [loading, setLoading] = useState(false);
 
-    const [addOneUser, error] = useAddOneUserMutation();
+    const [loginUserApi] = useLoginUserMutation();
 
     function handleNavigateToSignup(){
         props.navigation.navigate("SignUp")
+    }
+    function handleLoginSuccess(userId){
+        try{
+        Toast.show({
+            type: 'success',
+            text1: "Giriş Yapıldı!",
+            position:"top",
+        })
+        dispatch(loginUser(userId))
+        } catch(error){
+            console.log(error)
+        }
+    }
+    function handleLoginError(message){
+        Toast.show({  
+            type: 'error',
+            text1: "HATALI İŞLEM!  " + message,
+            position:"top",
+         })
     }
     function handleFormSubmit(formValues){
          const userObject = {"userFirstName" : formValues.userfirstname,
                              "userLastName" : formValues.userlastname,
                             "userEmail": formValues.email,
                             "userPassword": formValues.password}
-
+          
+        
           setLoading(true)
         
-          addOneUser(userObject)
+          loginUserApi(userObject)
                                 .unwrap()
-                                .then((payload) =>   Toast.show({
-                                                                       type: 'success',
-                                                                       text1: "Kullanıcı Eklendi!  "+payload.data.userFirstName ,
-                                                                       position:"top",
-                                   })).
-                                    catch((error) => Toast.show({  
-                                                                 type: 'error',
-                                                                 text1: "HATALI İŞLEM!  " + error.data.data.message,
-                                                                 position:"top",
-                                                              }));
-            
+                                .then((payload) =>   handleLoginSuccess(payload.data.id))
+                                .catch((error) =>handleLoginError(error.data.data.message));
+          
           setLoading(false)
        
     }

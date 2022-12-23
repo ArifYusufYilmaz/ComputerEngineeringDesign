@@ -3,6 +3,7 @@ package com.ComputerEngineeringDesign.Thesis.user.services.concretes;
 import com.ComputerEngineeringDesign.Thesis.generic.exceptions.BusinessException;
 import com.ComputerEngineeringDesign.Thesis.generic.exceptions.ItemNotFoundException;
 import com.ComputerEngineeringDesign.Thesis.user.converters.UserMapper;
+import com.ComputerEngineeringDesign.Thesis.user.dtos.UserLoginDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserResponseDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserSaveRequestDto;
 import com.ComputerEngineeringDesign.Thesis.user.dtos.UserUpdateRequestDto;
@@ -43,7 +44,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDto createOneUser(UserSaveRequestDto userSaveRequestDto) {
-        if(checkIfUserExistWithSameValues(userSaveRequestDto)){
+        if(checkIfUserExistWithSameValuesToSave(userSaveRequestDto)){
             throw new BusinessException(UserErrorMessage.USER_ALREADY_EXIST);
         }
 
@@ -77,22 +78,48 @@ public class UserServiceImpl implements UserService {
         }
         userDao.deleteById(id);
     }
-    boolean checkIfUserExist(Long id){
+
+    @Override
+    public UserResponseDto getSignedUpUser(UserLoginDto userLoginDto) {
+        User user = checkIfUserExistWithSameValuesToLogin(userLoginDto);
+        UserResponseDto userResponseDto = UserMapper.INSTANCE.mapUserToUserResponseDto(user);
+        return userResponseDto;
+    }
+
+    private boolean checkIfUserExist(Long id){
         Optional<User> userToCheck = userDao.findById(id);
         if(userToCheck.isPresent()) return true;
         return false;
     }
-    boolean checkIfUserExistWithSameValues(UserSaveRequestDto userSaveRequestDto){
-        Optional<User> userToCheck = userDao.
-                                            findUserByUserFirstNameAndUserLastNameAndUserEmailAndUserPassword(
-                                                    userSaveRequestDto.getUserFirstName(),
+    private boolean checkIfUserExistWithSameValuesToSave(UserSaveRequestDto userSaveRequestDto){
+        User userToCheck = userCheck(     userSaveRequestDto.getUserFirstName(),
                                                     userSaveRequestDto.getUserLastName(),
                                                     userSaveRequestDto.getUserEmail(),
                                                     userSaveRequestDto.getUserPassword()
                                                     );
-        if(userToCheck.isPresent()){
+        if(userToCheck != null){
             return true;
         }
         return false;
     }
+
+    private User userCheck(String userFirstName, String userLastName, String userEmail, String userPassword){
+        Optional<User> userOpt = userDao.
+                                        findUserByUserFirstNameAndUserLastNameAndUserEmailAndUserPassword(
+                                                                userFirstName,userLastName,userEmail,userPassword);
+
+        return userOpt.isPresent() ?  userOpt.get() : null;
+    }
+    private User checkIfUserExistWithSameValuesToLogin(UserLoginDto userLoginDto){
+        User user = userCheck(     userLoginDto.getUserFirstName(),
+                                            userLoginDto.getUserLastName(),
+                                            userLoginDto.getUserEmail(),
+                                            userLoginDto.getUserPassword()
+                                    );
+        if(user == null){
+            throw new BusinessException(UserErrorMessage.USER_VALUES_COULD_NOT_MATCH);
+        }
+        return user;
+    }
+
 }
