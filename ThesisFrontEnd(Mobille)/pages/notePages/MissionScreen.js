@@ -47,12 +47,16 @@ export default function MissionScreen(props){
     function handleNavigation(id){
         props.navigation.navigate("Task", {missionId: id})
     }
-    const renderMissions = ({item}) => <>
+    const renderMissions = ({item}) => <>           
                                                     <TouchableOpacity onPress={()=>handleNavigation(item.id)}>
+                                                    <View>
                                                     <MissionCard mission={item}></MissionCard>
+                                                    </View>
                                                     </TouchableOpacity>
                                                     <TouchableOpacity onPress={()=> handleDeleteOneMission(item.id)}>
-                                                        <MissionDelete></MissionDelete>
+                                                     <View>
+                                                     <MissionDelete></MissionDelete>
+                                                    </View>
                                                     </TouchableOpacity>
                                        </>
     return(
@@ -63,7 +67,10 @@ export default function MissionScreen(props){
                     visible={inputModalVisible}
                     onClose={handleInputToggle}
                     onSend={handleSendMissionContent}/>
-            <Button onPress={handleInputToggle}>Click To Add Mission</Button>
+            <View>
+                 <Button title="Send" onPress={handleInputToggle}/>
+            </View>
+            
         </View>
     );
 }

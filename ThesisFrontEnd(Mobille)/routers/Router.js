@@ -45,7 +45,7 @@ function NoteStack(){
     );
 }
 
-function BudgetStack(){
+function ProfileScreen(){
     return(
         <View>
             <Text>
@@ -57,13 +57,9 @@ function BudgetStack(){
 
 export default function Router(){
 
-    
     const { loginSituation } = useSelector(selectCurrentUser);
-   
-    
 
     return(
-        
          <NavigationContainer>
           {!loginSituation ? (
                 <Stack.Navigator initialRouteName="Login">
@@ -76,9 +72,8 @@ export default function Router(){
                     <Tab.Screen options={{tabBarIcon: ()=> (<Ionicons name="play-forward-outline"> </Ionicons>)}} 
                                 name="NoteStack"
                                 component={NoteStack}/> 
-                    <Tab.Screen name="BudgetStack" component={BudgetStack}/>
+                    <Tab.Screen name="Profile" component={ProfileScreen}/>
                 </Tab.Navigator>
-                
              )} 
          </NavigationContainer>
          

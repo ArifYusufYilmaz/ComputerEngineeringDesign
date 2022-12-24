@@ -1,11 +1,13 @@
 package com.ComputerEngineeringDesign.Thesis.note.services.concretes;
 
+import com.ComputerEngineeringDesign.Thesis.generic.exceptions.ItemNotFoundException;
 import com.ComputerEngineeringDesign.Thesis.note.converters.TaskMapper;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.taskDtos.TaskResponseDto;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.taskDtos.TaskSaveRequestDto;
 import com.ComputerEngineeringDesign.Thesis.note.dtos.taskDtos.TaskUpdateRequestDto;
 import com.ComputerEngineeringDesign.Thesis.note.entities.Mission;
 import com.ComputerEngineeringDesign.Thesis.note.entities.Task;
+import com.ComputerEngineeringDesign.Thesis.note.enums.TaskErrorMessage;
 import com.ComputerEngineeringDesign.Thesis.note.repositories.MissionDao;
 import com.ComputerEngineeringDesign.Thesis.note.repositories.TaskDao;
 import com.ComputerEngineeringDesign.Thesis.note.services.abstracts.TaskService;
@@ -24,7 +26,7 @@ public class TaskServiceImpl implements TaskService {
     public List<TaskResponseDto> getAllTasksByMissionId(Long missionId) {
         Optional<List<Task>> taskList = taskDao.findAllByMission_Id(missionId);
         if(!taskList.isPresent()){
-            // throw
+            throw new ItemNotFoundException(TaskErrorMessage.TASK_DOES_NOT_EXIST);
         }
         List<TaskResponseDto> taskResponseDtoList = TaskMapper.INSTANCE.mapTaskListToTaskResponseDtoList(taskList.get());
         return taskResponseDtoList;

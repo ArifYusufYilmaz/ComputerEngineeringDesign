@@ -12,7 +12,7 @@ export const SessionSlice = createSlice({
     reducers:{
         loginUser : (state, action) =>{
              state.value.loginSituation = true,
-             state.value.userId = action.payload.userId
+             state.value.userId = action.payload
         },
         logoutUser: state=>{
              state.value.loginSituation = false,

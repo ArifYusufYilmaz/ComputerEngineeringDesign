@@ -12,25 +12,21 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
-
     private final UserService userService;
-
     @GetMapping
     public ResponseEntity getAllUsers(){
         List<UserResponseDto> userResponseDtoList =  userService.getAllUsers();
         return ResponseEntity.ok(RestResponse.success(userResponseDtoList));
-
     }
     @PostMapping("/login")
     public ResponseEntity getSignedUpUser(@RequestBody UserLoginDto userLoginDto){
         UserResponseDto userResponseDto = userService.getSignedUpUser(userLoginDto);
         return ResponseEntity.ok(RestResponse.success(userResponseDto));
-
     }
     @GetMapping("/{id}")
     public ResponseEntity getOneUser(@PathVariable Long id){

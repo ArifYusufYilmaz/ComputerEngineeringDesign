@@ -13,12 +13,9 @@ import java.util.List;
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TaskMapper {
     TaskMapper INSTANCE = Mappers.getMapper(TaskMapper.class);
-
     List<TaskResponseDto> mapTaskListToTaskResponseDtoList(List<Task> tasks);
-
     @Mapping(source="mission.id", target="missionId")
     TaskResponseDto mapTaskToTaskResponseDto(Task task);
-
     @Mapping(source="missionId", target="mission.id")
     Task mapTaskSaveRequestDtoToTask(TaskSaveRequestDto taskSaveRequestDto);
 }

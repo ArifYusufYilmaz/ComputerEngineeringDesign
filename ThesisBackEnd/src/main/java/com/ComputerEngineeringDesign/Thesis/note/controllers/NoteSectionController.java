@@ -16,8 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NoteSectionController {
     private final NoteSectionService noteSectionService;
-    
-    @GetMapping("/user/{userId}")
+
+    @GetMapping("/all/userId/{userId}")
     public ResponseEntity getAllNoteSectionsByUserId(@PathVariable Long userId){
         List<NoteSectionResponseDto> noteSectionResponseDtoList = noteSectionService.getAllNoteSectionsByUserId(userId);
         return ResponseEntity.ok(RestResponse.success(noteSectionResponseDtoList));

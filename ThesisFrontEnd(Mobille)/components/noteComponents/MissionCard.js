@@ -8,7 +8,7 @@ export default function MissionCard(props){
     return(
         <View>
             <Text>
-                carddan yazıyorum {missionId} {missionName} 
+                {missionId} {missionName} 
             </Text>
         </View>
     );

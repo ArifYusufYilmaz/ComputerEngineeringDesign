@@ -12,7 +12,6 @@ export default function NoteCard(props){
             <Text>
                  {id} {noteSectionName}
             </Text>
-        
         </View>
     );
 }

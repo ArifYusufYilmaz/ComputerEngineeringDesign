@@ -21,12 +21,12 @@ public class TaskController {
         List<TaskResponseDto>  taskResponseDtoList =taskService.getAllTasksByMissionId(missionId);
         return ResponseEntity.ok(RestResponse.success(taskResponseDtoList));
     }
-    @GetMapping("/{id}")    //could be diverse
+    @GetMapping("/task/{id}")    //could be diverse
     public ResponseEntity getOneTask(@PathVariable Long id){
         TaskResponseDto taskResponseDto = taskService.getOneTask(id);
         return ResponseEntity.ok(RestResponse.success(taskResponseDto));
     }
-    @PostMapping("/{missionId}")
+    @PostMapping("/missionId/{missionId}")
     public ResponseEntity createOneTask(@PathVariable Long missionId ,@RequestBody TaskSaveRequestDto taskSaveRequestDto){
         TaskResponseDto taskResponseDto = taskService.createOneTask(missionId,taskSaveRequestDto);
         return ResponseEntity.ok(RestResponse.success(taskResponseDto));

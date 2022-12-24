@@ -9,8 +9,13 @@ import { useGetAllNoteSectionsQuery, useDeleteOneNoteSectionMutation, useAddOneN
 import NoteCard from "../../components/noteComponents/NoteCard";
 import NoteDelete from "../../components/noteComponents/NoteDelete";
 import ContentInputModal from "../../components/modals/ContentInputModal";
+import {  useSelector } from "react-redux";
+import {  selectCurrentUser } from "../../globalStates/SessionSlice";
 
 export default function NoteScreen(props){
+    
+    const currentUser  = useSelector(selectCurrentUser);
+    const userId =  currentUser.userId;
 
     const {
         data,
@@ -18,7 +23,8 @@ export default function NoteScreen(props){
         isSuccess,
         isError,
         error
-    } = useGetAllNoteSectionsQuery()
+    } = useGetAllNoteSectionsQuery(userId)
+    
     let content;
     if(isLoading){
         content = <Text>Loading...</Text>
@@ -34,9 +40,8 @@ export default function NoteScreen(props){
     const [deleteOneNoteSection] = useDeleteOneNoteSectionMutation()
 
 
-    const userId = 2;
-    
     function handleNavigation(id){
+
          props.navigation.navigate('Mission', {noteSectionId: id, userId: userId} )
     }
     function handleDeleteNote(id){
@@ -54,17 +59,22 @@ export default function NoteScreen(props){
         setInputModalVisible(!inputModalVisible)
     }
     function handleSendContent(content){
-        // content backendin istediği şekle çevrilerek gönderilmeli!
+       
         handleInputToggle()
-        const noteSection = {"noteSectionName": content}
+        const noteSection = {"noteSectionName": content, "userId" : userId}
          addOneNoteSection(noteSection)
          handleAddNote(content)
     }
-     const renderNoteCards = ({item}) =><> <TouchableOpacity onPress={()=> handleNavigation(item.id) }>
+     const renderNoteCards = ({item}) =><> 
+                                          <TouchableOpacity onPress={()=> handleNavigation(item.id) }>
+                                          <View>
                                           <NoteCard note={item}></NoteCard>
+                                          </View>
                                           </TouchableOpacity>
                                           <TouchableOpacity onPress={()=> handleDeleteNote(item.id)}>
+                                          <View>
                                           <NoteDelete noteId={item.id}></NoteDelete>
+                                          </View>
                                           </TouchableOpacity>
                                           </>
     
@@ -72,8 +82,6 @@ export default function NoteScreen(props){
     return(
         
         <View>
-             <Button title="Click To Go To Mission" onPress={()=>handleNavigation(2)}>Click</Button>  
-            <Button title="" onPress={handleAddNote}> Click To Add Toast</Button>
             <Stack >
                 <FAB icon={props => <Icon name="plus" {...props} />} onPress={handleInputToggle}/>
             </Stack>

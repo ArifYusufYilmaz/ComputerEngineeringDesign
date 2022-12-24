@@ -46,22 +46,22 @@ export default function LoginScreen(props){
          })
     }
     function handleFormSubmit(formValues){
-         const userObject = {"userFirstName" : formValues.userfirstname,
+        setLoading(true)
+        const userObject = {"userFirstName" : formValues.userfirstname,
                              "userLastName" : formValues.userlastname,
                             "userEmail": formValues.email,
                             "userPassword": formValues.password}
-          
-        
-          setLoading(true)
-        
-          loginUserApi(userObject)
-                                .unwrap()
-                                .then((payload) =>   handleLoginSuccess(payload.data.id))
-                                .catch((error) =>handleLoginError(error.data.data.message));
-          
-          setLoading(false)
-       
+          try{
+            loginUserApi(userObject)
+            .unwrap()
+            .then((payload) =>   handleLoginSuccess(payload.data.id))
+            .catch((error) =>handleLoginError(error.data.data.message));
+          }catch(error){
+             
+          }
+           setLoading(false)
     }
+    
     return(
         <View>
             <Formik initialValues={initialFormValues} onSubmit={handleFormSubmit}>
@@ -71,7 +71,7 @@ export default function LoginScreen(props){
                 <TextInput placeholder="userlastname" value={values.lastname} onChangeText={handleChange('userlastname')} />
                 <TextInput placeholder="email" value={values.email} onChangeText={handleChange('email')}></TextInput>
                 <TextInput placeholder="password" value={values.password} onChangeText={handleChange('password')} secureTextEntry={true}/>
-                <Button title={loading ? <ActivityIndicator/> : "Log In"} onPress={handleSubmit}/>
+                <Button title={loading ? "loading ": "Log In"} onPress={handleSubmit}/>
             </>
             }
             </Formik>

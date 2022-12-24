@@ -2,19 +2,19 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 export const ApiSlice = createApi({
     reducerPath: 'ApiSlice',
-    baseQuery : fetchBaseQuery({baseUrl : 'http://localhost:8080/'}),
+    baseQuery : fetchBaseQuery({baseUrl : 'http://192.168.1.6:8080/'}),
     tagTypes:['NoteSections', 'Missions', 'Tasks', 'Users'],
     endpoints:(builder)=>({
         getAllNoteSections: builder.query({
-              query : ()=> `api/v1/noteSections` ,
+              query : (userId)=> `api/v1/noteSections/all/userId/${userId}` ,
               providesTags: ['NoteSections'] 
         }),
         getOneNoteSection:(builder)=>({
-            query : (noteSectionId)=> `api/v1/noteSections/${noteSectionId}`
+            query : (noteSectionId)=> `api/v1/noteSections/noteSection/${noteSectionId}`
         }),
         addOneNoteSection : builder.mutation({
             query : (noteSection) => ({
-                url:`api/v1/noteSections`,
+                url:`api/v1/noteSections/userId/${noteSection.userId}`,
                 method: 'POST',
                 body: noteSection
             }),
@@ -36,7 +36,7 @@ export const ApiSlice = createApi({
         }),
         addOneMission : builder.mutation({
             query : (mission) =>({
-                url: `api/v1/missions/${mission.noteSectionId}`,
+                url: `api/v1/missions/noteSectionId/${mission.noteSectionId}`,
                 method: 'POST',
                 body: mission
             }),
@@ -58,7 +58,7 @@ export const ApiSlice = createApi({
         }),
         addOneTask : builder.mutation({
             query : (task)=>({
-                url: `api/v1/tasks/${task.missionId}`,
+                url: `api/v1/tasks/missionId/${task.missionId}`,
                 method:'POST',
                 body: task
             }),
@@ -77,7 +77,7 @@ export const ApiSlice = createApi({
             query : (userId) => `api/v1/users/${userId}`,
             providesTags : ['Users']
         }),
-        addOneUser : builder.mutation({
+        signUpUser : builder.mutation({
             query : (user)=>({
                 url:`api/v1/users/signUp`,
                 method:'POST',
@@ -107,6 +107,6 @@ export const {
     useAddOneTaskMutation,
     useDeleteOneTaskMutation,
     useGetOneUserQuery,
-    useAddOneUserMutation,
+    useSignUpUserMutation,
     useLoginUserMutation,
 } = ApiSlice

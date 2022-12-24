@@ -16,17 +16,13 @@ import { Provider } from 'react-redux';
 export default function App() {
 
   return (
-    // <ApiProvider api = {ApiSlice} >
+    
       <Provider store={store}>
         <View style  = {styles.container}>
-          {/* <ApiExample></ApiExample> */}
-          {/* <Text>Open up App.js to start working on your app!</Text> */}
           <Router></Router>
         </View>
         <Toast/>
       </Provider>
-     
-    // </ApiProvider>
   );
 }   
 

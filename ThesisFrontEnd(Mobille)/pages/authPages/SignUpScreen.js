@@ -4,7 +4,7 @@ import { Button } from "react-native";
 import {Formik} from 'formik';
 import Toast from 'react-native-toast-message';
 
-import { useAddOneUserMutation } from "../../api/ApiSlice";
+import {  useSignUpUserMutation } from "../../api/ApiSlice";
 
 const initialFormValues = {
     userfirstname: '',
@@ -15,7 +15,7 @@ const initialFormValues = {
 
 export default function SignUpScreen(props){
     const [loading, setLoading] = useState(false);
-    const [addOneUser] = useAddOneUserMutation();
+    const [signUpUser] = useSignUpUserMutation();
 
 
     function handleGoBackNavigate(){
@@ -44,7 +44,7 @@ export default function SignUpScreen(props){
 
          setLoading(true)
        
-         addOneUser(userObject)
+         signUpUser(userObject)
                                .unwrap()
                                .then((payload) =>   handleAddUserFulfilled(payload.data.userFirstName))
                                .catch((error) => handleAddUserRejected(error.data.data.message));

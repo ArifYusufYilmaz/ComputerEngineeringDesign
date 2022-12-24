@@ -23,13 +23,14 @@ public class MissionController {
         List<MissionResponseDto> missionResponseDtoList = missionService.getAllMissionsByNoteSectionId(noteSectionId);
         return ResponseEntity.ok(RestResponse.success(missionResponseDtoList));
     }
-    @GetMapping("/{id}")        // could be diverse
+    @GetMapping("/mission/{id}")        // could be diverse
     public ResponseEntity getOneMission(@PathVariable Long id){
         MissionResponseDto missionResponseDto = missionService.getOneMission(id);
         return ResponseEntity.ok(RestResponse.success(missionResponseDto));
     }
-    @PostMapping("/{noteSectionId}")
-    public ResponseEntity createOneMission(@PathVariable Long noteSectionId,@RequestBody MissionSaveRequestDto missionSaveRequestDto){
+    @PostMapping("/noteSectionId/{noteSectionId}")
+    public ResponseEntity createOneMission(@PathVariable Long noteSectionId,
+                                           @RequestBody MissionSaveRequestDto missionSaveRequestDto){
         MissionResponseDto missionResponseDto = missionService.createOneMission(noteSectionId, missionSaveRequestDto);
         return ResponseEntity.ok(RestResponse.success(missionResponseDto));
     }

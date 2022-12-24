@@ -53,14 +53,14 @@ public class NoteSectionServiceImpl implements NoteSectionService {
     @Override
     public NoteSectionResponseDto createOneNoteSection(Long userId, NoteSectionSaveRequestDto noteSectionSaveRequestDto) {
         if(userId == null){
-            //throw
+            throw new ItemNotFoundException(UserErrorMessage.USER_DOES_NOT_EXIST);
         }
         Optional<User> user = userDao.findById(userId);
         if(!user.isPresent()){
-            //throw
+            throw new ItemNotFoundException(UserErrorMessage.USER_DOES_NOT_EXIST);
         }
         if(userId != noteSectionSaveRequestDto.getUserId()){
-            //throw
+            throw new ItemNotFoundException(UserErrorMessage.USER_VALUES_COULD_NOT_MATCH);
         }
         NoteSection noteSection = NoteSectionMapper.INSTANCE.mapNoteSectionSaveRequestDtoToNoteSection(noteSectionSaveRequestDto);
         noteSection = noteSectionDao.save(noteSection);
