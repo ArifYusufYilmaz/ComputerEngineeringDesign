@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import NoteDelete from "./NoteDelete";
 import NoteUpdate from "./NoteUpdate";
 export default function NoteCard(props){
@@ -9,9 +9,15 @@ export default function NoteCard(props){
     } = props.note
     return(
         <View>
-            <Text>
-                 {id} {noteSectionName}
+            <Text style={styles.textStyle}>
+                 {noteSectionName}
             </Text>
         </View>
     );
 }
+const styles = StyleSheet.create({
+ textStyle:{
+    fontSize :20,
+    color: "white",
+ }
+})

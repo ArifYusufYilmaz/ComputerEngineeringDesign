@@ -6,7 +6,7 @@ export default function TaskDelete(){
     
     return(
         <View>
-             <Ionicons name="trash-outline"/>
+             <Ionicons name="trash-outline" size={30}/>
         </View>
     );
 }

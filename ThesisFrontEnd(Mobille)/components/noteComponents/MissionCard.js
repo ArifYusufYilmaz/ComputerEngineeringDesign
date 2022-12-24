@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 
 export default function MissionCard(props){
     const missionId = props.mission.id
@@ -7,9 +7,15 @@ export default function MissionCard(props){
     
     return(
         <View>
-            <Text>
-                {missionId} {missionName} 
+            <Text style={styles.textStyle}>
+                {missionName} 
             </Text>
         </View>
     );
 }
+const styles = StyleSheet.create({
+    textStyle:{
+        fontSize :20,
+        color: "white",
+     }
+})

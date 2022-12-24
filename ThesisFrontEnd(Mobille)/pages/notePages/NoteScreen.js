@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Button } from "react-native-paper";
 import {Stack,FAB} from "@react-native-material/core";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
@@ -52,7 +52,7 @@ export default function NoteScreen(props){
              type: 'info',
              text1: text1Message + " EKLENDİ",
              position:"top",
-             topOffset: 300
+             topOffset: 50
          })
     }   
     function handleInputToggle(){
@@ -66,33 +66,81 @@ export default function NoteScreen(props){
          handleAddNote(content)
     }
      const renderNoteCards = ({item}) =><> 
-                                          <TouchableOpacity onPress={()=> handleNavigation(item.id) }>
-                                          <View>
-                                          <NoteCard note={item}></NoteCard>
+                                          <View style={styles.renderStyle}>
+                                             <View style={styles.card}>
+                                                <TouchableOpacity onPress={()=> handleNavigation(item.id) }>
+                                                   <NoteCard note={item}></NoteCard>
+                                                </TouchableOpacity>
+                                             </View>
+                                             <View style={styles.deleteStyle}> 
+                                                     <TouchableOpacity onPress={()=> handleDeleteNote(item.id)}>
+                                                        <NoteDelete noteId={item.id}></NoteDelete>
+                                                    </TouchableOpacity>
+                                             </View>
                                           </View>
-                                          </TouchableOpacity>
-                                          <TouchableOpacity onPress={()=> handleDeleteNote(item.id)}>
-                                          <View>
-                                          <NoteDelete noteId={item.id}></NoteDelete>
-                                          </View>
-                                          </TouchableOpacity>
-                                          </>
+                                        </>
     
     const [inputModalVisible, setInputModalVisible] = useState(false);
     return(
         
-        <View>
-            <Stack >
-                <FAB icon={props => <Icon name="plus" {...props} />} onPress={handleInputToggle}/>
-            </Stack>
+        <View style={styles.container}>
+          
+             <View style={styles.itemStyle} >
+                <FlatList keyExtractor={(item, index) => index} data={content} renderItem={renderNoteCards}/>
+            </View>
+
+                <Stack style={styles.fabStyle}>
+                    <FAB icon={props => <Icon name="plus" {...props} />} onPress={handleInputToggle} />
+                </Stack>
+            
+             
             <ContentInputModal 
                     visible={inputModalVisible}
                     onClose={handleInputToggle}
                     onSend={handleSendContent}/>
-            <FlatList keyExtractor={(item, index) => index} data={content} renderItem={renderNoteCards}/>
+            
             
         </View>
        
         
     );
 }
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        flexDirection:'row',
+    },
+    itemStyle:{
+        marginTop:20,
+        marginLeft:20,
+    },
+    fabStyle:{
+        margin:10,
+        paddingTop:20,
+        // alignItems: "flex-end",
+    },
+    renderStyle:{
+        // flex:1,
+        backgroundColor:"blue",
+        flexDirection:"row",
+        width : 300,
+        height: 100,
+        padding: 10,
+        justifyContent: "space-between",
+        marginBottom: 20,
+    },
+    card:{
+        // padding:10,
+        // margin:15,
+        backgroundColor:"green",
+        justifyContent: "center",
+        alignItems: "center",
+        flex:2,
+    },
+    deleteStyle:{
+        flex:1,
+         justifyContent: "center",
+         alignItems: "center",
+         backgroundColor:"yellow",
+    }
+})

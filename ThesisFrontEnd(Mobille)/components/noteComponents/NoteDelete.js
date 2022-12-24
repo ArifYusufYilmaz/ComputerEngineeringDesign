@@ -6,8 +6,7 @@ export default function NoteDelete(props){
     return (
         <View>
             <Text>
-                <Ionicons name="trash-outline"/>
-                {props.noteId}
+                <Ionicons name="trash-outline" size={30}/>
             </Text>
         </View>
     );

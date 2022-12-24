@@ -59,7 +59,7 @@ public class NoteSectionServiceImpl implements NoteSectionService {
         if(!user.isPresent()){
             throw new ItemNotFoundException(UserErrorMessage.USER_DOES_NOT_EXIST);
         }
-        if(userId != noteSectionSaveRequestDto.getUserId()){
+        if(!userId.equals(noteSectionSaveRequestDto.getUserId())){
             throw new ItemNotFoundException(UserErrorMessage.USER_VALUES_COULD_NOT_MATCH);
         }
         NoteSection noteSection = NoteSectionMapper.INSTANCE.mapNoteSectionSaveRequestDtoToNoteSection(noteSectionSaveRequestDto);

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
-import { Button } from "react-native";
+import { Stack, Button } from "@react-native-material/core";
 import {Formik} from 'formik';
 import Toast from 'react-native-toast-message';
 
@@ -34,6 +34,7 @@ export default function SignUpScreen(props){
             type: 'error',
             text1: "HATALI İŞLEM!  " + message,
             position:"top",
+            topOffset: 120,
          })
     }
     function handleFormSubmit(formValues){
@@ -53,16 +54,22 @@ export default function SignUpScreen(props){
       
    }
     return(
-        <View>
+        <View style ={styles.container}>
             <Formik initialValues ={initialFormValues} onSubmit={handleFormSubmit}>
             {({values, handleChange, handleSubmit})=>
             <>
-                <TextInput placeholder="userfirstname" value={values.firstname} onChangeText={handleChange('userfirstname')} />
-                <TextInput placeholder="userlastname" value={values.lastname} onChangeText={handleChange('userlastname')} />
-                <TextInput placeholder="email" value={values.email} onChangeText={handleChange('email')} />
-                <TextInput placeholder="password" value={values.password} onChangeText={handleChange('password')} secureTextEntry={true}/>
-                <Button title="SIGN UP" onPress={handleSubmit}/>
-                <Button title="GO BACK" onPress={handleGoBackNavigate}/>
+                <TextInput style={styles.inputStyle} placeholder="userfirstname" value={values.firstname} onChangeText={handleChange('userfirstname')} />
+                <TextInput style={styles.inputStyle} placeholder="userlastname" value={values.lastname} onChangeText={handleChange('userlastname')} />
+                <TextInput style={styles.inputStyle} placeholder="email" value={values.email} onChangeText={handleChange('email')} />
+                <TextInput style={styles.inputStyle} placeholder="password" value={values.password} onChangeText={handleChange('password')} secureTextEntry={true}/>
+                
+                <Stack style={styles.buttonStyle}>
+                    <Button title="SIGN UP" onPress={handleSubmit}/>
+                 </Stack>
+                 <Stack style={styles.buttonStyle}>
+                     <Button title="GO BACK" onPress={handleGoBackNavigate}/>
+                 </Stack>
+                 
             </>
             }
             </Formik>
@@ -72,6 +79,21 @@ export default function SignUpScreen(props){
 
 const styles = StyleSheet.create({
     container: {
-        // flexDirection : "row"
+        flex:1,
+        backgroundColor:"#B9FFF8",
+        justifyContent:"center",
+    },
+    inputStyle:{
+        padding:15,
+        margin:10,
+        borderRadius:20,
+        backgroundColor:"#7FB77E",
+        color: "white",
+    },
+    buttonStyle:{
+        padding:10,
+        margin:10,
     }
+
+   
 })
